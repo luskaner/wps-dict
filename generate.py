@@ -58,7 +58,9 @@ def _read_all_db(bssid: EUI) -> ProviderResults:
                 results.add(res)
 
     for online_provider in online_providers.values():
-        results.add(online_provider.load(bssid))
+        res = online_provider.load(bssid)
+        if res:
+            results.add(res)
 
     return results
 

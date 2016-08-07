@@ -5,7 +5,7 @@ import update_db
 import generate
 
 args = parse()
-print(args)
+#print(args)
 
 if args.action == 'update_db':
     update_db.go()
