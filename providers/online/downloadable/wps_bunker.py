@@ -2,11 +2,11 @@ from io import StringIO
 
 import requests
 
-from .core.base import *
-from ..core.results import *
+from ...core.base import *
+from providers.core.results import *
 
 
-class OfflineProviderWpsBunker(OfflineProviderBase):
+class OfflineProviderWpsBunker(DumpProviderBase):
     @staticmethod
     def load_all() -> ProviderResults:
         response = requests.get('http://wpsbunker.hackaffeine.com/download_wps_db.php')

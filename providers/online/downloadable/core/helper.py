@@ -1,4 +1,4 @@
-from .. import *
+from providers.offline import *
 
 online_providers = {
     'download_wireless_net': download_wireless_net.OfflineProviderDownloadWirelessNet,

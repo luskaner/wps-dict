@@ -2,11 +2,11 @@ from io import StringIO
 
 import requests
 
-from .core.base import *
-from ..core.results import *
+from ...core.base import *
+from providers.core.results import *
 
 
-class OfflineProviderDownloadWirelessNet(OfflineProviderBase):
+class OfflineProviderDownloadWirelessNet(DumpProviderBase):
     @staticmethod
     def load_all() -> ProviderResults:
         response = requests.get('http://www.downloadwireless.net/scripts-live/patrones_conocidos.txt')
