@@ -1,3 +1,2 @@
-# Follows the RFC 4180 (https://tools.ietf.org/html/rfc4180) without quotes using the '|' char to separate elements within columns
 oui,tools,pins_sticker,pins_user
 123456,,,12345678
