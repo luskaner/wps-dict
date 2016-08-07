@@ -6,5 +6,5 @@ class OfflineProviderBuiltin(DumpProviderBase):
     @staticmethod
     def load_all() -> ProviderResults:
         results = ProviderResults()
-        results.add(ProviderResult('000000', pins=[00000000]))
+        results.add(ProviderResult('123456', pins=['12345678']))
         return results

@@ -1,6 +1,6 @@
 from .. import *
 
-tools_matcher = {
+tools = {
     'computepin': compute_pin.ToolComputePin,
     'easybox': easybox_wps.ToolEasyboxWps,
     'fte_keygen': fte_keygen.ToolFteKeygen,
