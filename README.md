@@ -21,6 +21,8 @@ Wps-dict is an utility to dynamically generate pins based on the BSSID, ESSID an
 - Python package `netaddr` (_installable via `pip3`_)
 - Python package `pyquery` (_installable via `pip3`_)
 
+_Note: Wifislax 4.12 and Kali linux Rolling scripts to install dependencies [here](https://github.com/luskaner/wps-dict/tree/master/dependencies)_
+
 ## Builtin Help
 ### Main section
 ```
