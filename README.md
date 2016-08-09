@@ -56,7 +56,7 @@ optional arguments:
                         Available tools: computepin, trendnetwps, belkin_pingen, easybox, fte_keygen, dlink_pingen
                         Default: "smart" (chooses the tools to include depending on the bssid, essid and serial)
   --exclude-tools [TOOL [TOOL ...]]
-                        Specify the tools(s) to exclude generating the pins from or, "none" to use all tools::
+                        Specify the tools(s) to exclude generating the pins from or, "none" to use all tools:
                         Available tools: computepin, trendnetwps, belkin_pingen, easybox, fte_keygen, dlink_pingen
                         Default: "smart" (chooses the tools to exclude depending on the bssid, essid and serial)
   --include-providers [PROVIDER [PROVIDER ...]]
