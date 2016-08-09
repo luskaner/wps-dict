@@ -16,6 +16,11 @@ Wps-dict is an utility to dynamically generate pins based on the BSSID, ESSID an
 - [WPS Bunker](http://wpsbunker.hackaffeine.com/download_wps_db.php)
 - [WPS DB](http://wpsdb.site40.net)
 
+## Depedencies
+- Python 3+
+- Python package `netaddr` (_installable via `pip3`_)
+- Python package `pyquery` (_installable via `pip3`_)
+
 ## Builtin Help
 ### Main section
 ```
