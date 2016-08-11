@@ -5,6 +5,8 @@ from tools.core.helper import *
 from providers.offline.core.helper import *
 from providers.online.core.helper import *
 from providers.online.downloadable.core.helper import *
+from sys import exit
+from colorama import Fore
 
 eui_format_help_url = 'https://pythonhosted.org/netaddr/tutorial_02.html#formatting'
 tools_names = list(tools.keys())
@@ -20,24 +22,27 @@ def _bssid(mac_str: str) -> EUI:
         return mac_converted
     else:
         raise argparse.ArgumentTypeError(
-            'BSSID format is incorrect (see {} for supported formats)'.format(eui_format_help_url))
+            '\033[1m\033[31mBSSID format is incorrect\033[39m \033[1m(see {} for supported formats)\033[0m'.format(
+                eui_format_help_url))
 
 
 class MultiChoiceAction(argparse.Action):
     def __call__(self, parser, namespace, values, option_string=None, label='option', choices=[], single_choices=[]):
         for single_choice in single_choices:
             if single_choice in values and len(values) > 1:
-                message = 'The {0} values have to be the single choice'.format(', '.join([repr(action)
-                                                                                          for action in
-                                                                                          single_choices]))
+                message = '\033[1m\033[31mThe\033[39m \033[36m{0} \033[31mvalues have to be the single choice\033[0m'.format(
+                    ', '.join([repr(action)
+                               for action in
+                               single_choices]))
                 raise argparse.ArgumentError(self, message)
         if values:
             for value in values:
                 if value not in choices:
-                    message = ("Invalid {0}(s): {1!r} (choose from {2})"
-                               .format(label, value,
-                                       ', '.join([repr(action)
-                                                  for action in choices])))
+                    message = (
+                    "\033[1m\033[31mInvalid {0}(s):\033[39m \033[36m{1!r}\033[39m \033[0m(choose from\033[39m \033[36m{2}\033[39m\033[0m)"
+                    .format(label, value,
+                            ', '.join([repr(action)
+                                       for action in choices])))
 
                     raise argparse.ArgumentError(self, message)
             setattr(namespace, self.dest, values)
@@ -144,4 +149,10 @@ def parse():
                                      help=(
                                          'Specify the provider(s) to NOT get the info from or "none" to use them all:\nAvailable providers: {}\nDefault: "none"'.format(
                                              ', '.join(updatable_providers_names))), metavar='PROVIDER', default='none')
-    return parser.parse_args()
+
+    args = parser.parse_args()
+    if not args.action:
+        parser.print_help()
+        exit(2)
+    else:
+        return args

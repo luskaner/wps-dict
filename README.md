@@ -87,3 +87,9 @@ optional arguments:
                         Available providers: builtin, goy_script, download_wireless_net, wps_bunker, wps_db
                         Default: "none"
 ```
+## Exit error codes
+- Success:
+    - ```0```: No error
+    - ```3```: No internet connection warning
+- Error:
+    - ```2```: Argument error

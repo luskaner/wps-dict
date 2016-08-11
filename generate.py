@@ -9,6 +9,8 @@ from providers.online.core.helper import *
 from providers.online.downloadable.core.helper import *
 from helpers.internet_connection import is_connected
 
+error_code = 0
+
 
 def _get_pins(res: ProviderResult, bssid: EUI, essid: str, serial: str, tools_allowed: list) -> list:
     pins = set()
@@ -62,7 +64,9 @@ def _read_db(bssid: EUI, providers_db_selected: list, online_providers_selected:
                 if res:
                     results.add(res)
         else:
-            print('WARNING: Online providers will not be checked without internet connection')
+            print('\033[1m\033[33mWARNING: Online providers will not be checked without internet connection\033[0m')
+            global error_code
+            error_code = 3
 
     return results
 
@@ -115,4 +119,4 @@ def go(bssid: EUI, essid: str, serial: str, tools_included: list, tools_excluded
         for tool in tools_allowed:
             pins.update(tools_allowed[tool].get_pins(bssid, essid, serial))
 
-    return pins
+    return [str(pin) for pin in pins], error_code
