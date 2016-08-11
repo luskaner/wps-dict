@@ -7,6 +7,7 @@ from tools.core.helper import *
 from providers.offline.core.helper import *
 from providers.online.core.helper import *
 from providers.online.downloadable.core.helper import *
+from helpers.internet_connection import is_connected
 
 
 def _get_pins(res: ProviderResult, bssid: EUI, essid: str, serial: str, tools_allowed: list) -> list:
@@ -55,10 +56,13 @@ def _read_db(bssid: EUI, providers_db_selected: list, online_providers_selected:
                     results.add(res)
 
     if online_providers_selected:
-        for name, obj in online_providers_selected.items():
-            res = obj.load(bssid)
-            if res:
-                results.add(res)
+        if is_connected():
+            for name, obj in online_providers_selected.items():
+                res = obj.load(bssid)
+                if res:
+                    results.add(res)
+        else:
+            print('WARNING: Online providers will not be checked without internet connection')
 
     return results
 
@@ -76,23 +80,13 @@ def go(bssid: EUI, essid: str, serial: str, tools_included: list, tools_excluded
         providers_online = []
     elif not ('all' in providers_included) or not ('none' in providers_excluded):
         if not ('none' in providers_excluded):
-            for p_excluded in providers_excluded:
-                if p_excluded in providers_db:
-                    del providers_db[p_excluded]
-                elif p_excluded in providers_online:
-                    del providers_online[p_excluded]
+            providers_db = {key: providers_db[key] for key in (providers_db.keys() - providers_excluded) if
+                            key in providers_db}
+            providers_online = {key: providers_online[key] for key in (providers_online.keys() - providers_excluded) if
+                                key in providers_online}
         elif not ('all' in providers_included):
-            tmp_providers_db = []
-            tmp_providers_online = []
-
-            for p_included in providers_included:
-                if p_included in providers_db:
-                    tmp_providers_db[p_included] = providers_db[p_included]
-                elif p_included in providers_online:
-                    tmp_providers_online[p_included] = providers_online[p_included]
-
-            providers_db = tmp_providers_db
-            providers_online = tmp_providers_online
+            providers_db = {key: providers_db[key] for key in providers_included if key in providers_db}
+            providers_online = {key: providers_online[key] for key in providers_online if key in providers_online}
 
     results = _read_db(bssid, providers_db, providers_online)
 
