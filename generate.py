@@ -75,13 +75,13 @@ def go(bssid: EUI, essid: str, serial: str, tools_included: list, tools_excluded
         providers_db = []
         providers_online = []
     elif not ('all' in providers_included) or not ('none' in providers_excluded):
-        if providers_excluded:
+        if not ('none' in providers_excluded):
             for p_excluded in providers_excluded:
                 if p_excluded in providers_db:
                     del providers_db[p_excluded]
                 elif p_excluded in providers_online:
                     del providers_online[p_excluded]
-        elif providers_included:
+        elif not ('all' in providers_included):
             tmp_providers_db = []
             tmp_providers_online = []
 
@@ -101,11 +101,11 @@ def go(bssid: EUI, essid: str, serial: str, tools_included: list, tools_excluded
     if 'all' in tools_excluded or 'none' in tools_included:
         tools_allowed = []
     elif not ('all' in tools_included) or not ('none' in tools_excluded):
-        if tools_excluded:
+        if not ('none' in tools_excluded):
             for t_excluded in tools_excluded:
                 if t_excluded in tools_allowed:
                     del tools_allowed[t_excluded]
-        elif tools_included:
+        elif not ('all' in tools_included):
             tmp_tools_allowed = []
 
             for t_included in tools_included:

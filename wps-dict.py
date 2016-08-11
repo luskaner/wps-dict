@@ -8,12 +8,12 @@ args = parse()
 print(args)
 
 if args.action == 'update_db':
-    update_db.go()
+    update_db.go(args.include_providers, args.exclude_providers)
 else:
-    if 'smart' in args.include_tools and 'smart' in args.exclude_tools:
-        smart_mode = True
+    if 'auto' in args.include_tools and 'smart' in args.exclude_tools:
+        auto_mode = True
     else:
-        smart_mode = False
+        auto_mode = False
 
     if 'none' in args.include_providers or 'all' in args.exclude_providers:
         no_providers = True
@@ -25,7 +25,7 @@ else:
     else:
         no_tools = False
 
-    if smart_mode and no_providers:
+    if auto_mode and no_providers:
         print('To use the smart mode you have to select at least 1 provider')
     elif no_tools and no_providers:
         print('You have to select at least 1 provider or tool')

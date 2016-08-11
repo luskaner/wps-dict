@@ -9,8 +9,9 @@ from providers.online.downloadable.core.helper import *
 eui_format_help_url = 'https://pythonhosted.org/netaddr/tutorial_02.html#formatting'
 tools_names = list(tools.keys())
 providers_names = list(offline_providers)
-providers_names.extend(online_providers)
 providers_names.extend(online_downloadable_providers)
+updatable_providers_names = providers_names[:]
+providers_names.extend(online_providers)
 
 
 def _bssid(mac_str: str) -> EUI:
@@ -22,89 +23,88 @@ def _bssid(mac_str: str) -> EUI:
             'BSSID format is incorrect (see {} for supported formats)'.format(eui_format_help_url))
 
 
-class IncludeToolAction(argparse.Action):
-    CHOICES = ['smart', 'all', 'none']
-    CHOICES.extend(tools_names)
-
-    def __call__(self, parser, namespace, values, option_string=None):
-        if values:
-            if len(values) == len(self.CHOICES) - 3:
-                self.CHOICES = ['smart']
-            if ('all' in values and len(values) > 1) or (
-                ('none' in values and len(values) > 1) or ('smart' in values and len(values) > 1)):
-                message = 'The "none", "all", "smart" values have to be the single choice'
+class MultiChoiceAction(argparse.Action):
+    def __call__(self, parser, namespace, values, option_string=None, label='option', choices=[], single_choices=[]):
+        for single_choice in single_choices:
+            if single_choice in values and len(values) > 1:
+                message = 'The {0} values have to be the single choice'.format(', '.join([repr(action)
+                                                                                          for action in
+                                                                                          single_choices]))
                 raise argparse.ArgumentError(self, message)
+        if values:
             for value in values:
-                if value not in self.CHOICES:
-                    message = ("Invalid tool(s) included: {0!r} (choose from {1})"
-                               .format(value,
+                if value not in choices:
+                    message = ("Invalid {0}(s): {1!r} (choose from {2})"
+                               .format(label, value,
                                        ', '.join([repr(action)
-                                                  for action in self.CHOICES])))
+                                                  for action in choices])))
 
                     raise argparse.ArgumentError(self, message)
             setattr(namespace, self.dest, values)
 
 
-class ExcludeToolAction(argparse.Action):
-    CHOICES = ['smart', 'all']
-    CHOICES.extend(tools_names)
-
+class IncludeToolAction(MultiChoiceAction):
     def __call__(self, parser, namespace, values, option_string=None):
-        if values:
-            if ('none' in values and len(values) > 1) or ('smart' in values and len(values) > 1):
-                message = 'The "none" and "smart" values have to be the single choice'
-                raise argparse.ArgumentError(self, message)
-            for value in values:
-                if value not in self.CHOICES:
-                    message = ("Invalid tool(s) excluded: {0!r} (choose from {1})"
-                               .format(value,
-                                       ', '.join([repr(action)
-                                                  for action in self.CHOICES])))
-
-                    raise argparse.ArgumentError(self, message)
-            setattr(namespace, self.dest, values)
+        label = 'tool'
+        choices = ['auto', 'all', 'none']
+        single_choices = choices[:]
+        choices.extend(tools_names)
+        if len(values) == len(choices) - 3:
+            choices = ['auto']
+        super(IncludeToolAction, self).__call__(parser, namespace, values, option_string=None, label=label,
+                                                choices=choices, single_choices=single_choices)
 
 
-class IncludeProviderAction(argparse.Action):
-    CHOICES = ['none']
-    CHOICES.extend(providers_names)
-
+class ExcludeToolAction(MultiChoiceAction):
     def __call__(self, parser, namespace, values, option_string=None):
-        if values:
-            if 'none' in values and len(values) > 1:
-                message = 'The "none" value have to be the single choice'
-                raise argparse.ArgumentError(self, message)
-            for value in values:
-                if value not in self.CHOICES:
-                    message = ("Invalid provider(s) included: {0!r} (choose from {1})"
-                               .format(value,
-                                       ', '.join([repr(action)
-                                                  for action in self.CHOICES])))
-
-                    raise argparse.ArgumentError(self, message)
-            setattr(namespace, self.dest, values)
+        label = 'tool'
+        choices = ['auto', 'all', 'none']
+        single_choices = choices[:]
+        choices.extend(tools_names)
+        super(ExcludeToolAction, self).__call__(parser, namespace, values, option_string=None, label=label,
+                                                choices=choices, single_choices=single_choices)
 
 
-class ExcludeProviderAction(argparse.Action):
-    CHOICES = ['all']
-    CHOICES.extend(providers_names)
-
+class IncludeProviderAction(MultiChoiceAction):
     def __call__(self, parser, namespace, values, option_string=None):
-        if values:
-            if len(values) == len(self.CHOICES) - 1:
-                self.CHOICES = ['all']
-            if 'none' in values and len(values) > 1:
-                message = 'The "all" value have to be the single choice'
-                raise argparse.ArgumentError(self, message)
-            for value in values:
-                if value not in self.CHOICES:
-                    message = ("Invalid provider(s) excluded: {0!r} (choose from {1})"
-                               .format(value,
-                                       ', '.join([repr(action)
-                                                  for action in self.CHOICES])))
+        label = 'provider'
+        choices = ['all', 'none']
+        single_choices = choices[:]
+        choices.extend(providers_names)
+        super(IncludeProviderAction, self).__call__(parser, namespace, values, option_string=None, label=label,
+                                                    choices=choices, single_choices=single_choices)
 
-                    raise argparse.ArgumentError(self, message)
-            setattr(namespace, self.dest, values)
+
+class ExcludeProviderAction(MultiChoiceAction):
+    def __call__(self, parser, namespace, values, option_string=None):
+        label = 'provider'
+        choices = ['all', 'none']
+        single_choices = choices[:]
+        choices.extend(providers_names)
+        if len(values) == len(choices) - 1:
+            choices = ['all']
+        super(ExcludeProviderAction, self).__call__(parser, namespace, values, option_string=None, label=label,
+                                                    choices=choices, single_choices=single_choices)
+
+
+class IncludeProviderUpdateDbAction(MultiChoiceAction):
+    def __call__(self, parser, namespace, values, option_string=None):
+        label = 'provider'
+        choices = ['all']
+        single_choices = choices[:]
+        choices.extend(updatable_providers_names)
+        super(IncludeProviderUpdateDbAction, self).__call__(parser, namespace, values, option_string=None, label=label,
+                                                            choices=choices, single_choices=single_choices)
+
+
+class ExcludeProviderUpdateDbAction(MultiChoiceAction):
+    def __call__(self, parser, namespace, values, option_string=None):
+        label = 'provider'
+        choices = ['none']
+        single_choices = choices[:]
+        choices.extend(updatable_providers_names)
+        super(ExcludeProviderUpdateDbAction, self).__call__(parser, namespace, values, option_string=None, label=label,
+                                                            choices=choices, single_choices=single_choices)
 
 
 def parse():
@@ -119,21 +119,29 @@ def parse():
     tools_group = gen_parser.add_mutually_exclusive_group()
     tools_group.add_argument('--include-tools', nargs='*', action=IncludeToolAction,
                              help=(
-                                 'Specify the tools(s) to generate the pins from or, "all" to use all tools:\nAvailable tools: {}\nDefault: "smart" (chooses the tools to include depending on the bssid, essid and serial)'.format(
-                                     ', '.join(tools_names))), metavar='TOOL', default='smart')
+                                 'Specify the tools(s) to generate the pins from, "all" to use all tools or, "none" to NOT\nuse any tools or "auto" to use them depending on the providers:\nAvailable tools: {}\nDefault: "smart" (chooses the tools to include depending on the bssid, essid and serial)'.format(
+                                     ', '.join(tools_names))), metavar='TOOL', default='auto')
     tools_group.add_argument('--exclude-tools', nargs='*', action=ExcludeToolAction,
                              help=(
-                                 'Specify the tools(s) to exclude generating the pins from or, "none" to use all tools::\nAvailable tools: {}\nDefault: "smart" (chooses the tools to exclude depending on the bssid, essid and serial)'.format(
-                                     ', '.join(tools_names))), metavar='TOOL', default='smart')
+                                 'Specify the tools(s) to generate the pins from, "all" to NOT use any tools, "none" to use\nall tools or "auto" to use them depending on the providers\nAvailable tools: {}\nDefault: "smart" (chooses the tools to exclude depending on the bssid, essid and serial)'.format(
+                                     ', '.join(tools_names))), metavar='TOOL', default='auto')
     providers = gen_parser.add_mutually_exclusive_group()
     providers.add_argument('--include-providers', nargs='*', action=IncludeProviderAction,
                            help=(
-                               'Specify the provider(s) to get the pins or info from or, "none" to not use providers:\nAvailable providers: {}\nDefault: "all"'.format(
+                               'Specify the provider(s) to get the info from, "all" to use them all or "none" to NOT any providers:\nAvailable providers: {}\nDefault: "all"'.format(
                                    ', '.join(providers_names))), metavar='PROVIDER', default='all')
     providers.add_argument('--exclude-providers', nargs='*', action=ExcludeProviderAction,
                            help=(
-                               'Specify the provider(s) to NOT get the pins or info from or, "all" to not use any provider:\nAvailable providers: {}\nDefault: "none"'.format(
+                               'Specify the provider(s) to NOT get the info from or, "all" to NOT use any provider or "none" to use them all:\nAvailable providers: {}\nDefault: "none"'.format(
                                    ', '.join(providers_names))), metavar='PROVIDER', default='none')
-    subparsers.add_parser('update_db')
-
+    update_db_parser = subparsers.add_parser('update_db', formatter_class=argparse.RawTextHelpFormatter)
+    providers_update_db = update_db_parser.add_mutually_exclusive_group()
+    providers_update_db.add_argument('--include-providers', nargs='*', action=IncludeProviderUpdateDbAction,
+                                     help=(
+                                         'Specify the provider(s) to get the info from or "all" to use them all:\nAvailable providers: {}\nDefault: "all"'.format(
+                                             ', '.join(updatable_providers_names))), metavar='PROVIDER', default='all')
+    providers_update_db.add_argument('--exclude-providers', nargs='*', action=ExcludeProviderUpdateDbAction,
+                                     help=(
+                                         'Specify the provider(s) to NOT get the info from or "none" to use them all:\nAvailable providers: {}\nDefault: "none"'.format(
+                                             ', '.join(updatable_providers_names))), metavar='PROVIDER', default='none')
     return parser.parse_args()
