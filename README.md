@@ -37,9 +37,19 @@ optional arguments:
 ### Update database section
 ```
 usage: wps-dict.py update_db [-h]
+                             [--include-providers [PROVIDER [PROVIDER ...]] |
+                             --exclude-providers [PROVIDER [PROVIDER ...]]]
 
 optional arguments:
-  -h, --help  show this help message and exit
+  -h, --help            show this help message and exit
+  --include-providers [PROVIDER [PROVIDER ...]]
+                        Specify the provider(s) to get the info from or "all" to use them all:
+                        Available providers: builtin, goy_script, download_wireless_net, wps_bunker
+                        Default: "all"
+  --exclude-providers [PROVIDER [PROVIDER ...]]
+                        Specify the provider(s) to NOT get the info from or "none" to use them all:
+                        Available providers: builtin, goy_script, download_wireless_net, wps_bunker
+                        Default: "none"
 ```
 ### Generate dictionary section
 ```
@@ -59,19 +69,21 @@ optional arguments:
   -e ESSID, --essid ESSID
   -s SERIAL, --serial SERIAL
   --include-tools [TOOL [TOOL ...]]
-                        Specify the tools(s) to generate the pins from or, "all" to use all tools:
-                        Available tools: computepin, trendnetwps, belkin_pingen, easybox, fte_keygen, dlink_pingen
+                        Specify the tools(s) to generate the pins from, "all" to use all tools or, "none" to NOT
+                        use any tools or "auto" to use them depending on the providers:
+                        Available tools: dlink_pingen, fte_keygen, trendnetwps, belkin_pingen, easybox, computepin
                         Default: "smart" (chooses the tools to include depending on the bssid, essid and serial)
   --exclude-tools [TOOL [TOOL ...]]
-                        Specify the tools(s) to exclude generating the pins from or, "none" to use all tools:
-                        Available tools: computepin, trendnetwps, belkin_pingen, easybox, fte_keygen, dlink_pingen
+                        Specify the tools(s) to generate the pins from, "all" to NOT use any tools, "none" to use
+                        all tools or "auto" to use them depending on the providers
+                        Available tools: dlink_pingen, fte_keygen, trendnetwps, belkin_pingen, easybox, computepin
                         Default: "smart" (chooses the tools to exclude depending on the bssid, essid and serial)
   --include-providers [PROVIDER [PROVIDER ...]]
-                        Specify the provider(s) to get the pins or info from or, "none" to not use providers:
-                        Available providers: builtin, wps_db, wps_bunker, download_wireless_net, goy_script
+                        Specify the provider(s) to get the info from, "all" to use them all or "none" to NOT any providers:
+                        Available providers: builtin, goy_script, download_wireless_net, wps_bunker, wps_db
                         Default: "all"
   --exclude-providers [PROVIDER [PROVIDER ...]]
-                        Specify the provider(s) to NOT get the pins or info from or, "all" to not use any provider:
-                        Available providers: builtin, wps_db, wps_bunker, download_wireless_net, goy_script
+                        Specify the provider(s) to NOT get the info from or, "all" to NOT use any provider or "none" to use them all:
+                        Available providers: builtin, goy_script, download_wireless_net, wps_bunker, wps_db
                         Default: "none"
 ```
