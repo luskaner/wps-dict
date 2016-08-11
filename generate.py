@@ -48,7 +48,7 @@ def _read_db(bssid: EUI, providers_db_selected: list, online_providers_selected:
         for name, _ in providers_db_selected.items():
             with open(path + name + '.csv', newline='') as csv_file:
                 pins_reader = csv.reader(csv_file)
-                for _ in range(2):
+                for _ in range(1):
                     next(pins_reader)
                 for row in pins_reader:
                     res = ProviderResult.from_csv_array(row)
