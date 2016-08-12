@@ -7,9 +7,9 @@ from helpers.internet_connection import is_connected
 error_code = 0
 
 
-def go(providers_included: list, providers_excluded: list) -> None:
+def go(providers_included: list, providers_excluded: list) -> int:
     global error_code
-    pins_path = dirname(abspath(__file__)) + '/pins/'
+    pins_path = dirname(abspath(__file__)) + '/../pins/'
     providers_db = offline_providers
     if is_connected():
         providers_db.update(online_downloadable_providers)

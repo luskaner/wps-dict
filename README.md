@@ -18,21 +18,26 @@ Wps-dict is an utility to dynamically generate pins based on the BSSID, ESSID an
 
 ## Dependencies
 - Python 3+
-- Python package `netaddr` (_installable via `pip3`_)
-- Python package `pyquery` (_installable via `pip3`_)
+    - Packages (_installable via `pip3`_):
+        - `netaddr` 
+        - `pyquery`
+        - `colorama`
 
 _Note: Wifislax 4.12 and Kali linux Rolling scripts to install dependencies [here](https://github.com/luskaner/wps-dict/tree/master/dependencies)_
 
 ## Builtin Help
 ### Main section
 ```
-usage: wps-dict.py [-h] {generate,update_db} ...
+usage: wps-dict.py [-h] [-c]
+                   {list_providers,list_tools,generate,update_db} ...
 
 positional arguments:
-  {generate,update_db}
+  {list_providers,list_tools,generate,update_db}
 
 optional arguments:
   -h, --help            show this help message and exit
+  -c, --csv             Outputs in a CSV format instead of the standard human-
+                        readable output (except for errors and help)
 ```
 ### Update database section
 ```
@@ -89,7 +94,9 @@ optional arguments:
 ```
 ## Exit error codes
 - Success:
-    - ```0```: No error
-    - ```3```: No internet connection warning
+    - `0`: No error.
+    - `3`: No internet connection warning.
+        - `update_db` option: only the offline providers would be updated.
+        - `generate` option: the online providers would not be queried.
 - Error:
-    - ```2```: Argument error
+    - `2`: Argument error.

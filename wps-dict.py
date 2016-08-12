@@ -1,18 +1,20 @@
 #!/usr/bin/env python3
 
-from helpers.arg_parser import *
-import update_db
-import generate
 from colorama import init
+
+from actions import generate, update_db, list_providers, list_tools
+from helpers.arg_parser import *
 
 init()
 args = parse()
 # print(args)
 
-if args.action == 'update_db':
-    error_code = update_db.go(args.include_providers, args.exclude_providers)
-    exit(error_code)
-else:
+
+if args.action == 'list_providers':
+    list_providers.go(args.csv)
+elif args.action == 'list_tools':
+    list_tools.go(args.csv)
+elif args.action == 'generate':
     if 'auto' in args.include_tools and 'auto' in args.exclude_tools:
         auto_mode = True
     else:
@@ -46,9 +48,16 @@ else:
             args.include_tools,
             args.exclude_tools,
             args.include_providers,
-            args.exclude_providers,
+            args.exclude_providers
         )
-        print('The resulting pin(s) is/are:\n\033[1m\033[32m{0}\033[0m'.format(
-            ', '.join(res))
-        )
+        if args.csv:
+            print('pin')
+            print('\n'.join(res))
+        else:
+            print('The resulting pin(s) is/are:\n\033[1m\033[32m{0}\033[0m'.format(
+                ', '.join(res))
+            )
         exit(error_code)
+elif args.action == 'update_db':
+    error_code = update_db.go(args.include_providers, args.exclude_providers)
+    exit(error_code)

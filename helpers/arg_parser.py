@@ -6,7 +6,6 @@ from providers.offline.core.helper import *
 from providers.online.core.helper import *
 from providers.online.downloadable.core.helper import *
 from sys import exit
-from colorama import Fore
 
 eui_format_help_url = 'https://pythonhosted.org/netaddr/tutorial_02.html#formatting'
 tools_names = list(tools.keys())
@@ -39,10 +38,10 @@ class MultiChoiceAction(argparse.Action):
             for value in values:
                 if value not in choices:
                     message = (
-                    "\033[1m\033[31mInvalid {0}(s):\033[39m \033[36m{1!r}\033[39m \033[0m(choose from\033[39m \033[36m{2}\033[39m\033[0m)"
-                    .format(label, value,
-                            ', '.join([repr(action)
-                                       for action in choices])))
+                        "\033[1m\033[31mInvalid {0}(s):\033[39m \033[36m{1!r}\033[39m \033[0m(choose from\033[39m \033[36m{2}\033[39m\033[0m)"
+                            .format(label, value,
+                                    ', '.join([repr(action)
+                                               for action in choices])))
 
                     raise argparse.ArgumentError(self, message)
             setattr(namespace, self.dest, values)
@@ -114,7 +113,11 @@ class ExcludeProviderUpdateDbAction(MultiChoiceAction):
 
 def parse():
     parser = argparse.ArgumentParser()
+    parser.add_argument('-c', '--csv', action='store_true',
+                        help='Outputs in a CSV format instead of the standard human-readable output (except for errors and help)')
     subparsers = parser.add_subparsers(dest='action')
+    subparsers.add_parser('list_providers', formatter_class=argparse.RawTextHelpFormatter)
+    subparsers.add_parser('list_tools', formatter_class=argparse.RawTextHelpFormatter)
     gen_parser = subparsers.add_parser('generate', formatter_class=argparse.RawTextHelpFormatter)
     gen_parser.add_argument('bssid', type=_bssid,
                             help='BSSID in MAC address format\n(see {} for supported formats)'.format(

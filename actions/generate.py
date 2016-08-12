@@ -44,7 +44,7 @@ def _get_pins(res: ProviderResult, bssid: EUI, essid: str, serial: str, tools_al
 
 
 def _read_db(bssid: EUI, providers_db_selected: list, online_providers_selected: list) -> ProviderResults:
-    path = dirname(abspath(__file__)) + '/pins/'
+    path = dirname(abspath(__file__)) + '/../pins/'
     results = ProviderResults()
 
     if providers_db_selected:
@@ -72,7 +72,7 @@ def _read_db(bssid: EUI, providers_db_selected: list, online_providers_selected:
 
 
 def go(bssid: EUI, essid: str, serial: str, tools_included: list, tools_excluded: list, providers_included: list,
-       providers_excluded: list) -> list:
+       providers_excluded: list) -> (list, int):
     pins = set()
 
     providers_db = offline_providers
