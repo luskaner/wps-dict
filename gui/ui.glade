@@ -8,6 +8,7 @@
     <property name="resizable">False</property>
     <property name="default_width">600</property>
     <property name="icon_name">network-wireless</property>
+    <signal name="delete-event" handler="delete_window" swapped="no"/>
     <child>
       <object class="GtkStack" id="stack1">
         <property name="visible">True</property>
@@ -245,27 +246,7 @@
           </packing>
         </child>
         <child>
-          <object class="GtkGrid">
-            <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-          </object>
-          <packing>
-            <property name="name">update_page</property>
-            <property name="title" translatable="yes">Update</property>
-            <property name="position">3</property>
-          </packing>
+          <placeholder/>
         </child>
       </object>
     </child>
