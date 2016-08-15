@@ -18,7 +18,7 @@ Wps-dict is an utility to dynamically generate pins based on the BSSID, ESSID an
 
 ## Dependencies
 - Python 3+
-    - Packages (_installable via `pip3`_):
+    - Packages (_installable via `pip3` or, `apt` prefixing them with 'python3'_):
         - `netaddr` 
         - `pyquery`
         - `colorama`
