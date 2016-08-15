@@ -1,6 +1,5 @@
 #!/bin/bash
 
-sudo apt-get install python3-pip
-sudo pip3 install netaddr
-sudo pip3 install pyquery
-sudo pip3 install colorama
+apt-get install python3-colorama
+apt-get install python3-netaddr
+apt-get install python3-pyquery

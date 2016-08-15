@@ -1,6 +1,7 @@
 from netaddr import EUI
 from os.path import dirname, abspath
 import re
+import os.path
 
 from providers.core.results import *
 from tools.core.helper import *
@@ -49,13 +50,15 @@ def _read_db(bssid: EUI, providers_db_selected: list, online_providers_selected:
 
     if providers_db_selected:
         for name, _ in providers_db_selected.items():
-            with open(path + name + '.csv', newline='') as csv_file:
-                pins_reader = csv.reader(csv_file)
-                for _ in range(1):
-                    next(pins_reader)
-                for row in pins_reader:
-                    res = ProviderResult.from_csv_array(row)
-                    results.add(res)
+            file_path = path + name + '.csv'
+            if os.path.exists(file_path):
+                with open(file_path, newline='') as csv_file:
+                    pins_reader = csv.reader(csv_file)
+                    for _ in range(1):
+                        next(pins_reader)
+                    for row in pins_reader:
+                        res = ProviderResult.from_csv_array(row)
+                        results.add(res)
 
     if online_providers_selected:
         if is_connected():
