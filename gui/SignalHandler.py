@@ -11,6 +11,22 @@ class SignalHandler:
     def delete_window(self, *args):
         Gtk.main_quit(*args)
 
+    def update_db(self, *args):
+        pass
+
+    def update_task_switcher_buttons(self, *args):
+        stack_page = args[0].get_visible_child_name()
+
+        if stack_page == 'dictionary_page':
+            self.builder.get_object('generate_button').set_visible(True)
+        else:
+            self.builder.get_object('generate_button').set_visible(False)
+
+        if stack_page == 'providers_page':
+            self.builder.get_object('update_button').set_visible(True)
+        else:
+            self.builder.get_object('update_button').set_visible(False)
+
     def generate(self, _):
         bssid = self.builder.get_object('bssid').get_text()
         essid = self.builder.get_object('essid').get_text()
