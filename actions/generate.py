@@ -99,7 +99,7 @@ def go(bssid: EUI, essid: str, serial: str, tools_included: list, tools_excluded
 
     tools_allowed = tools
 
-    if 'all' in tools_excluded or 'none' in tools_included:
+    if ('all' in tools_excluded or 'none' in tools_included) or ('auto' in tools_excluded and 'auto' in tools_included):
         tools_allowed = []
     elif not ('all' in tools_included) or not ('none' in tools_excluded):
         if not ('none' in tools_excluded):

@@ -10,11 +10,15 @@ gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk
 
 
-def _get_column():
+def _get_column(builder, tools=False):
     column = Gtk.TreeViewColumn()
 
     name = Gtk.CellRendererText()
     enabled = Gtk.CellRendererToggle()
+    if tools:
+        enabled.connect("toggled", SignalHandler(builder).on_cell_toggled_tools)
+    else:
+        enabled.connect("toggled", SignalHandler(builder).on_cell_toggled_providers)
 
     column.pack_start(name, True)
     column.pack_start(enabled, True)
@@ -22,33 +26,35 @@ def _get_column():
     column.add_attribute(name, "text", 0)
     column.add_attribute(enabled, "active", 1)
 
+
     return column
 
 
 def generate_provider_tree(builder):
-    lista = builder.get_object("providers_list")
+    providers_list = builder.get_object("providers_list")
 
-    item_offline_providers = lista.append(None, ['Offline providers', True])
-    item_online_providers = lista.append(None, ['Online providers', True])
-    item_online_downloadable_providers = lista.append(item_online_providers, ['Downloadable providers', True])
-    item_online_queryable_providers = lista.append(item_online_providers, ['Queryable providers', True])
+    item_offline_providers = providers_list.append(None, ['Offline providers', True])
+    item_online_providers = providers_list.append(None, ['Online providers', True])
+    item_online_downloadable_providers = providers_list.append(item_online_providers, ['Downloadable providers', True])
+    item_online_queryable_providers = providers_list.append(item_online_providers, ['Queryable providers', True])
     for offline_provider in offline_providers.keys():
-        lista.append(item_offline_providers, [offline_provider, True])
+        providers_list.append(item_offline_providers, [offline_provider, True])
     for online_provider in online_providers.keys():
-        lista.append(item_online_queryable_providers, [online_provider, True])
+        providers_list.append(item_online_queryable_providers, [online_provider, True])
     for online_downloadable_provider in online_downloadable_providers.keys():
-        lista.append(item_online_downloadable_providers, [online_downloadable_provider, True])
+        providers_list.append(item_online_downloadable_providers, [online_downloadable_provider, True])
 
-    builder.get_object("providers_tree_view").append_column(_get_column())
+    builder.get_object("providers_tree_view").get_selection().set_mode(Gtk.SelectionMode.NONE)
+    builder.get_object("providers_tree_view").append_column(_get_column(builder))
 
 
 def generate_tool_tree(builder):
-    lista = builder.get_object("tools_list")
+    tools_list = builder.get_object("tools_list")
     for tool in tools.keys():
-        lista.append([tool, True])
+        tools_list.append([tool, True])
 
-    builder.get_object("tools_tree_view").append_column(_get_column())
-
+    builder.get_object("tools_tree_view").append_column(_get_column(builder, True))
+    builder.get_object("tools_tree_view").get_selection().set_mode(Gtk.SelectionMode.NONE)
 
 def init():
     builder = Gtk.Builder()
