@@ -12,7 +12,11 @@ class SignalHandler:
         Gtk.main_quit(*args)
 
     def update_db(self, *args):
-        pass
+        from actions import update_db
+        update_db.go([], [])
+
+    def tools_auto_switch_change(self, _, activated):
+        self.builder.get_object('tools_revealer').set_reveal_child(not activated)
 
     def update_task_switcher_buttons(self, *args):
         stack_page = args[0].get_visible_child_name()
@@ -33,16 +37,18 @@ class SignalHandler:
         serial = self.builder.get_object('serial').get_text()
 
         if not bssid:
-            self.builder.get_object("bssid_error_popover").show_all()
+            self.builder.get_object("bssid_format_error_popover").hide()
+            self.builder.get_object("bssid_required_error_popover").show_all()
         else:
-            self.builder.get_object("bssid_error_popover").hide()
-            from netaddr import EUI
-            from actions import generate
-
-            pins, error_code = generate.go(EUI(bssid), essid, serial, [], [], [], [])
-
-            pins_expander = self.builder.get_object("pins_expander")
-            pins_buffer = self.builder.get_object("pins_buffer")
-            pins_buffer.set_text(', '.join(pins))
-            pins_expander.set_sensitive(True)
-            pins_expander.set_expanded(True)
+            self.builder.get_object("bssid_required_error_popover").hide()
+            from helpers.mac import mac
+            bssid_mac = mac(bssid)
+            if bssid_mac:
+                self.builder.get_object("bssid_format_error_popover").hide()
+                pins_buffer = self.builder.get_object("pins_buffer")
+                from actions import generate
+                pins, error_code = generate.go(bssid_mac, essid, serial, [], [], [], [])
+                pins_buffer.set_text(', '.join(pins))
+                self.builder.get_object("pins_revealer").set_reveal_child(True)
+            else:
+                self.builder.get_object("bssid_format_error_popover").show_all()
