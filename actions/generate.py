@@ -93,7 +93,7 @@ def go(bssid: EUI, essid: str, serial: str, tools_included: list, tools_excluded
                                 key in providers_online}
         elif not ('all' in providers_included):
             providers_db = {key: providers_db[key] for key in providers_included if key in providers_db}
-            providers_online = {key: providers_online[key] for key in providers_online if key in providers_online}
+            providers_online = {key: providers_online[key] for key in providers_included if key in providers_online}
 
     results = _read_db(bssid, providers_db, providers_online)
 

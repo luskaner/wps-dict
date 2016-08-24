@@ -21,7 +21,7 @@ def go(providers_included: list, providers_excluded: list) -> int:
         if not ('none' in providers_excluded):
             providers_db = {key: providers_db[key] for key in (providers_db.keys() - providers_excluded)}
         elif not ('all' in providers_included):
-            providers_db = {key: providers_db[key] for key in providers_included}
+            providers_db = {key: providers_db[key] for key in providers_included if key in providers_db}
 
     for name, obj in providers_db.items():
         res = obj.load_all()
