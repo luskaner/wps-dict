@@ -14,6 +14,7 @@ def go(csv: bool) -> None:
             print('{},online_downloadable'.format(online_downloadable_provider))
     else:
         print("Offline providers:\n\033[1m\033[36m- {}\033[0m\n".format('\n- '.join(offline_providers)))
-        print("Online queryable providers:\n\033[1m\033[36m- {}\033[0m\n".format('\n- '.join(online_providers)))
-        print("Online downloadable providers:\n\033[1m\033[36m- {}\033[0m".format(
+        print("Online providers:".format('\n- '.join(online_queryable_providers)))
+        print("* Queryable providers:\n\033[1m\033[36m- {}\033[0m\n".format('\n- '.join(online_queryable_providers)))
+        print("* Downloadable providers:\n\033[1m\033[36m- {}\033[0m".format(
             '\n- '.join(online_downloadable_providers)))
