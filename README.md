@@ -6,6 +6,7 @@ Wps-dict includes both a CLI version named `wps-dict-cli.py` and a GUI GTK 3 ver
 ## Installing requirements
 ### Pre-requirements
 * Python 3.1 _or higher_
+
 ### Requirements
 #### Multi-OS
 * `make` or
