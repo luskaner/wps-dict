@@ -3,7 +3,7 @@ from abc import ABC, abstractmethod
 
 
 class ToolBase(ABC):
-    # For the supported functions, regex is supported
+    # For the supported_* functions, regex is used
     @staticmethod
     @abstractmethod
     def supported_ouis() -> list:
