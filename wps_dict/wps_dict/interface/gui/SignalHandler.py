@@ -12,7 +12,7 @@ class SignalHandler:
         Gtk.main_quit(*args)
 
     def update_db(self, *args):
-        from actions import update_db
+        from ...actions.base import update_db
         included, excluded = self._get_providers_included_excluded()
         update_db.go(included, excluded)
 
@@ -118,7 +118,7 @@ class SignalHandler:
         else:
             self.builder.get_object("bssid").get_style_context().remove_class('warning')
             self.builder.get_object("bssid_required_error_popover").hide()
-            from helpers.mac import mac
+            from ...helpers.mac import mac
             bssid_mac = mac(bssid)
             if bssid_mac:
                 self.builder.get_object("bssid_format_error_popover").hide()
@@ -126,7 +126,7 @@ class SignalHandler:
                 tools_list_included_str, tools_list_excluded_str = self._get_tools_included_excluded()
                 providers_list_included_str, providers_list_excluded_str = self._get_providers_included_excluded()
                 pins_buffer = self.builder.get_object("pins_buffer")
-                from actions import generate
+                from ...actions.base import generate
                 pins, error_code = generate.go(bssid_mac, essid, serial, tools_list_included_str,
                                                tools_list_excluded_str, providers_list_included_str,
                                                providers_list_excluded_str)

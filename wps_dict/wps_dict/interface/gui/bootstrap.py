@@ -6,7 +6,7 @@ from .SignalHandler import *
 from ...providers.online.downloadable.list import online_downloadable_providers
 from ...providers.online.queryable.list import online_queryable_providers
 from ...providers.offline.list import offline_providers
-from ...tools.core.helper import *
+from ...tools.list import tools
 
 gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk
