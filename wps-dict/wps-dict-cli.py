@@ -7,7 +7,6 @@ from helpers.arg_parser import *
 
 init()
 args = parse()
-# print(args)
 
 
 if args.action == 'list_providers':

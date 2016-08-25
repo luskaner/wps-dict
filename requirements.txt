@@ -1,3 +1,4 @@
 pyquery
 colorama
 netaddr
+requests
