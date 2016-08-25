@@ -16,19 +16,10 @@ Wps-dict is an utility to dynamically generate pins based on the BSSID, ESSID an
 - [WPS Bunker](http://wpsbunker.hackaffeine.com/download_wps_db.php)
 - [WPS DB](http://wpsdb.site40.net)
 
-## Dependencies
-- Python 3+
-    - Packages (_installable via `pip3` or, `apt` prefixing them with 'python3'_):
-        - `netaddr` 
-        - `pyquery`
-        - `colorama`
-
-_Note: Wifislax 4.12 and Kali linux Rolling scripts to install dependencies [here](https://github.com/luskaner/wps-dict/tree/master/dependencies)_
-
 ## Builtin Help
 ### Main section
 ```
-usage: wps-dict.py [-h] [-c]
+usage: wps-dict-cli.py [-h] [-c]
                    {list_providers,list_tools,generate,update_db} ...
 
 positional arguments:
@@ -41,7 +32,7 @@ optional arguments:
 ```
 ### Update database section
 ```
-usage: wps-dict.py update_db [-h]
+usage: wps-dict-cli.py update_db [-h]
                              [--include-providers [PROVIDER [PROVIDER ...]] |
                              --exclude-providers [PROVIDER [PROVIDER ...]]]
 
@@ -58,7 +49,7 @@ optional arguments:
 ```
 ### Generate dictionary section
 ```
-usage: wps-dict.py generate [-h] [-e ESSID] [-s SERIAL]
+usage: wps-dict-cli.py generate [-h] [-e ESSID] [-s SERIAL]
                             [--include-tools [TOOL [TOOL ...]] |
                             --exclude-tools [TOOL [TOOL ...]]]
                             [--include-providers [PROVIDER [PROVIDER ...]] |
