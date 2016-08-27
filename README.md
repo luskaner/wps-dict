@@ -10,7 +10,7 @@ Wps-dict includes both a CLI version named `wps-dict-cli.py` and a GUI GTK 3 ver
 ### Requirements
 Install them by running `make` or `make debian`.
 
-_Note: for more in-depth info see the_ [[requirements page|Requirements]]
+_Note: for more in-depth info see the [requirements page](/a)._
 
 ## Tools included
 - [Belkin pingen](https://github.com/devttys0/wps/blob/master/pingens/belkin/pingen.c)
