@@ -3,15 +3,6 @@ Wps-dict is an utility to dynamically generate pins based on the BSSID, ESSID an
 
 Wps-dict includes both a CLI version named `wps-dict-cli.py` and a GUI GTK 3 version named `wps-dict-gui.py`
 
-## Installing requirements
-### Pre-requirements
-* Python 3.1 _or higher_.
-
-### Requirements
-Install them by running `make` or `make debian`.
-
-_Note: for more in-depth info see the [requirements page](../../wiki/Requirements)._
-
 ## Tools included
 - [Belkin pingen](https://github.com/devttys0/wps/blob/master/pingens/belkin/pingen.c)
 - [Dlink pingen](https://github.com/devttys0/wps/blob/master/pingens/dlink/pingen.py)
@@ -26,3 +17,12 @@ _Note: for more in-depth info see the [requirements page](../../wiki/Requirement
 - [GoyScript](https://raw.githubusercontent.com/0x90/wps-scripts/master/goyscript/software/PINs.goy)
 - [WPS Bunker](http://wpsbunker.hackaffeine.com/download_wps_db.php)
 - [WPS DB](http://wpsdb.site40.net)
+
+## Installing requirements
+### Pre-requirements
+* Python 3.1 _or higher_.
+
+### Requirements
+Install them by running `make` or `make debian`.
+
+_Note: for more in-depth info see the [requirements page](../../wiki/Requirements)._
