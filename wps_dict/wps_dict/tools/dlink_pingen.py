@@ -11,6 +11,7 @@ class ToolDlinkPingen(ToolBase):
     @staticmethod
     def get_pins(bssid: EUI, essid: str = None, serial: str = None) -> list:
         ei_int = get_ei_int_from_eui(bssid)
+        # noinspection PyTypeChecker
         pin = ei_int ^ 0x55AA55
         pin ^= (((pin & 0x0F) << 4) +
                 ((pin & 0x0F) << 8) +

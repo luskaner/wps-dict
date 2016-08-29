@@ -1,3 +1,4 @@
+gi
 pyquery
 colorama
 netaddr

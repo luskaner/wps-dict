@@ -1,12 +1,13 @@
 from io import StringIO
 
 import requests
+import csv
 
-from ...core.base import *
-from ....providers.core.results import *
+from ...core.base import DumpProviderBase
+from ....providers.core.results import ProviderResult, ProviderResults
 
 
-class OfflineProviderDownloadWirelessNet(DumpProviderBase):
+class ProviderDownloadWirelessNet(DumpProviderBase):
     @staticmethod
     def load_all() -> ProviderResults:
         response = requests.get('http://www.downloadwireless.net/scripts-live/patrones_conocidos.txt')

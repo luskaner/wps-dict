@@ -1,4 +1,3 @@
-import gi
 
 from os.path import dirname, abspath
 
@@ -9,9 +8,11 @@ from ...providers.offline.list import offline_providers
 from ...tools.list import tools
 
 gi.require_version('Gtk', '3.0')
+# noinspection PyPep8,PyUnresolvedReferences
 from gi.repository import Gtk
 
 
+# noinspection PyUnusedLocal
 def _set_treeview_row(_, cell, *__):
     inconsistent = cell.get_property('inconsistent')
     enabled = cell.get_property('active')

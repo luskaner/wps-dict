@@ -1,12 +1,13 @@
 from io import StringIO
 
 import requests
+import csv
 
-from ...core.base import *
-from ....providers.core.results import *
+from ...core.base import DumpProviderBase
+from ....providers.core.results import ProviderResult, ProviderResults
 
 
-class OfflineProviderWpsBunker(DumpProviderBase):
+class ProviderWpsBunker(DumpProviderBase):
     @staticmethod
     def load_all() -> ProviderResults:
         response = requests.get('http://wpsbunker.hackaffeine.com/download_wps_db.php')

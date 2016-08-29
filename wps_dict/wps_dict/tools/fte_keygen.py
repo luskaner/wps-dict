@@ -1,11 +1,14 @@
 import re
 
+from netaddr import EUI
+from ..helpers.wps_pin import calc_pin
 from ..helpers.mac import get_ei_from_eui, get_oui_from_eui
-from .compute_pin import *
+from .compute_pin import ToolComputePin
 from .core.base import ToolBase
 
 
-# Class adapted from WPSPinGeneratorMOD (https://github.com/0x90/wps-scripts/blob/master/goyscript/software/WPSPinGeneratorMOD)
+# Class adapted from WPSPinGeneratorMOD
+# (https://github.com/0x90/wps-scripts/blob/master/goyscript/software/WPSPinGeneratorMOD)
 # Date 4 May 2015
 class ToolFteKeygen(ToolBase):
     @staticmethod

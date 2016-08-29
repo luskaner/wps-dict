@@ -5,7 +5,8 @@ from ..helpers.wps_pin import calc_pin
 from .core.base import ToolBase
 
 
-# Adapted from vulnerability report https://www.sec-consult.com/fxdata/seccons/prod/temedia/advisories_txt/20130805-0_Vodafone_EasyBox_Default_WPS_PIN_Vulnerability_v10.txt
+# Adapted from vulnerability report
+# https://www.sec-consult.com/fxdata/seccons/prod/temedia/advisories_txt/20130805-0_Vodafone_EasyBox_Default_WPS_PIN_Vulnerability_v10.txt
 # Date 2012-12-01
 class ToolEasyboxWps(ToolBase):
     @staticmethod

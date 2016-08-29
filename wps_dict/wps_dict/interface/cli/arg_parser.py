@@ -28,27 +28,40 @@ def _bssid(mac_str: str) -> EUI:
 
 
 class MultiChoiceAction(argparse.Action):
-    def __call__(self, parser, namespace, values, option_string=None, label='option', choices=[], single_choices=[]):
+    def __call__(self,
+                 parser,
+                 namespace,
+                 values,
+                 option_string=None,
+                 label='option',
+                 choices=None,
+                 single_choices=None):
+        if choices is None:
+            choices = []
+        if single_choices is None:
+            single_choices = []
         for single_choice in single_choices:
             if single_choice in values and len(values) > 1:
-                message = '\033[1m\033[31mThe\033[39m \033[36m{0} \033[31mvalues have to be the single choice\033[0m'.format(
-                    ', '.join([repr(action)
-                               for action in
-                               single_choices]))
+                message = '\033[1m\033[31mThe\033[39m \033[36m{0} \033[31mvalues have to be the single choice\033[0m'. \
+                    format(', '.join([repr(action)
+                                      for action in
+                                      single_choices]))
                 raise argparse.ArgumentError(self, message)
         if values:
             for value in values:
                 if value not in choices:
+                    # noinspection PyPep8
                     message = (
-                        "\033[1m\033[31mInvalid {0}(s):\033[39m \033[36m{1!r}\033[39m \033[0m(choose from\033[39m \033[36m{2}\033[39m\033[0m)"
-                            .format(label, value,
-                                    ', '.join([repr(action)
-                                               for action in choices])))
+                        "\033[1m\033[31mInvalid {0}(s):\033[39m \033[36m{1!r}\033[39m \033[0m(choose from\033[39m \033[36m{2}\033[39m\033[0m)".format(
+                            label, value,
+                            ', '.join([repr(action)
+                                       for action in choices])))
 
                     raise argparse.ArgumentError(self, message)
             setattr(namespace, self.dest, values)
 
 
+# noinspection PyMethodOverriding
 class IncludeToolAction(MultiChoiceAction):
     def __call__(self, parser, namespace, values, option_string=None):
         label = 'tool'
@@ -61,6 +74,7 @@ class IncludeToolAction(MultiChoiceAction):
                                                 choices=choices, single_choices=single_choices)
 
 
+# noinspection PyMethodOverriding
 class ExcludeToolAction(MultiChoiceAction):
     def __call__(self, parser, namespace, values, option_string=None):
         label = 'tool'
@@ -71,6 +85,7 @@ class ExcludeToolAction(MultiChoiceAction):
                                                 choices=choices, single_choices=single_choices)
 
 
+# noinspection PyMethodOverriding
 class IncludeProviderAction(MultiChoiceAction):
     def __call__(self, parser, namespace, values, option_string=None):
         label = 'provider'
@@ -81,6 +96,7 @@ class IncludeProviderAction(MultiChoiceAction):
                                                     choices=choices, single_choices=single_choices)
 
 
+# noinspection PyMethodOverriding
 class ExcludeProviderAction(MultiChoiceAction):
     def __call__(self, parser, namespace, values, option_string=None):
         label = 'provider'
@@ -93,6 +109,7 @@ class ExcludeProviderAction(MultiChoiceAction):
                                                     choices=choices, single_choices=single_choices)
 
 
+# noinspection PyMethodOverriding
 class IncludeProviderUpdateDbAction(MultiChoiceAction):
     def __call__(self, parser, namespace, values, option_string=None):
         label = 'provider'
@@ -103,6 +120,7 @@ class IncludeProviderUpdateDbAction(MultiChoiceAction):
                                                             choices=choices, single_choices=single_choices)
 
 
+# noinspection PyMethodOverriding
 class ExcludeProviderUpdateDbAction(MultiChoiceAction):
     def __call__(self, parser, namespace, values, option_string=None):
         label = 'provider'
@@ -113,6 +131,7 @@ class ExcludeProviderUpdateDbAction(MultiChoiceAction):
                                                             choices=choices, single_choices=single_choices)
 
 
+# noinspection PyPep8
 def parse():
     parser = argparse.ArgumentParser()
     parser.add_argument('-c', '--csv', action='store_true',
@@ -129,11 +148,11 @@ def parse():
     tools_group = gen_parser.add_mutually_exclusive_group()
     tools_group.add_argument('--include-tools', nargs='*', action=IncludeToolAction,
                              help=(
-                                 'Specify the tools(s) to generate the pins from, "all" to use all tools or, "none" to NOT\nuse any tools or "auto" to use them depending on the providers:\nAvailable tools: {}\nDefault: "smart" (chooses the tools to include depending on the bssid, essid and serial)'.format(
+                                 'Specify the tools(s) to generate the pins from, "all" to use all tools or, "none" to NOT\nuse any tools or "auto" to use them depending on the providers:\nAvailable tools: {}\nDefault: "auto" (chooses the tools to include depending on the bssid, essid and serial)'.format(
                                      ', '.join(tools_names))), metavar='TOOL', default='auto')
     tools_group.add_argument('--exclude-tools', nargs='*', action=ExcludeToolAction,
                              help=(
-                                 'Specify the tools(s) to generate the pins from, "all" to NOT use any tools, "none" to use\nall tools or "auto" to use them depending on the providers\nAvailable tools: {}\nDefault: "smart" (chooses the tools to exclude depending on the bssid, essid and serial)'.format(
+                                 'Specify the tools(s) to generate the pins from, "all" to NOT use any tools, "none" to use\nall tools or "auto" to use them depending on the providers\nAvailable tools: {}\nDefault: "auto" (chooses the tools to exclude depending on the bssid, essid and serial)'.format(
                                      ', '.join(tools_names))), metavar='TOOL', default='auto')
     providers = gen_parser.add_mutually_exclusive_group()
     providers.add_argument('--include-providers', nargs='*', action=IncludeProviderAction,

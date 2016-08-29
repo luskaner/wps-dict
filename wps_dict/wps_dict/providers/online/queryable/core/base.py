@@ -1,9 +1,9 @@
 from netaddr import EUI
 from abc import ABC, abstractmethod
-from ...core.results import ProviderResults
+from ....core.results import ProviderResults
 
 
-class OnlineProviderBase(ABC):
+class OnlineQueryableProviderBase(ABC):
     @staticmethod
     @abstractmethod
     def load(mac: EUI) -> ProviderResults:

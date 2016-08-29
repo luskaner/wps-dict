@@ -1,9 +1,11 @@
 import gi
 
 gi.require_version('Gtk', '3.0')
+# noinspection PyUnresolvedReferences
 from gi.repository import Gtk
 
 
+# noinspection PyMethodMayBeStatic,PyUnusedLocal
 class SignalHandler:
     def __init__(self, builder):
         self.builder = builder

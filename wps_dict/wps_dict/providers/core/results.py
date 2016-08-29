@@ -64,9 +64,6 @@ class ProviderResults:
     def save_as_csv_file(self, path) -> None:
         with open(path, 'w', newline='') as f:
             writer = csv.writer(f)
-            '''writer.writerow([
-                "# Follows the RFC 4180 (https://tools.ietf.org/html/rfc4180) without quotes using the '|' char to separate elements within columns"])
-            '''
             writer.writerow(['oui', 'tools', 'pins_sticker', 'pins_user'])
             for _, res in self.results.items():
                 writer.writerow(res.as_csv_array())

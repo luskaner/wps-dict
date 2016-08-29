@@ -1,15 +1,17 @@
 from netaddr import EUI
 from os.path import dirname, abspath
 import re
+import csv
 import os.path
 
-from ...providers.core.results import *
+from ...providers.core.results import ProviderResult, ProviderResults
 from ...tools.list import tools
 from ...providers.offline.list import offline_providers
 from ...providers.online.downloadable.list import online_downloadable_providers
 from ...providers.online.queryable.list import online_queryable_providers
 from ...helpers.internet_connection import is_connected
 from ...helpers.mac import get_oui_from_eui
+
 
 def _get_pins(res: ProviderResult, bssid: EUI, essid: str, serial: str, tools_allowed: list) -> list:
     pins = set()
@@ -42,7 +44,7 @@ def _get_pins(res: ProviderResult, bssid: EUI, essid: str, serial: str, tools_al
     return pins
 
 
-def _read_db(bssid: EUI, providers_db_selected: list, online_providers_selected: list) -> ProviderResults:
+def _read_db(bssid: EUI, providers_db_selected: dict, online_providers_selected: dict) -> ProviderResults:
     error_code = 0
     path = dirname(abspath(__file__)) + '/../../pins/'
     results = ProviderResults()

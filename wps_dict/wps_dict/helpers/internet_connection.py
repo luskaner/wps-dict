@@ -10,8 +10,8 @@ def is_connected():
         host = socket.gethostbyname(REMOTE_SERVER)
         # connect to the host -- tells us if the host is actually
         # reachable
-        s = socket.create_connection((host, 80), 2)
+        socket.create_connection((host, 80), 2)
         return True
-    except:
+    except OSError:
         pass
     return False

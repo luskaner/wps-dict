@@ -1,5 +1,5 @@
 from . import *
 
 offline_providers = {
-    'builtin': builtin.OfflineProviderBuiltin,
+    'builtin': builtin.ProviderBuiltin,
 }

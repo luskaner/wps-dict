@@ -1,11 +1,13 @@
 import requests
 from pyquery import PyQuery as Pq
+from netaddr import EUI
 
-from ..core.base import *
-from ...core.results import *
+from ....helpers.mac import get_oui_from_eui
+from .core.base import OnlineQueryableProviderBase
+from ...core.results import ProviderResult
 
 
-class OnlineProviderWpsDb(OnlineProviderBase):
+class ProviderWpsDb(OnlineQueryableProviderBase):
     @staticmethod
     def load(bssid: EUI) -> ProviderResult:
         mac_oui = get_oui_from_eui(bssid)

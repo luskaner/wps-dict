@@ -21,5 +21,5 @@ class ToolBase(ABC):
 
     @staticmethod
     @abstractmethod
-    def get_pins(bssid: EUI, essid: str = None, serial: str = None) -> list:
+    def get_pins(bssid: EUI, essid: str, serial: str) -> list:
         pass
